@@ -1,0 +1,29 @@
+﻿=== CAT 1 ===
+Headers: ['Topic', 'Difficulty', 'Question', 'Option A', 'Option B', 'Option C', 'Option D', 'Correct Answer']
+Total questions: 326
+  Topic 1: Iterative Tower of Hanoi
+  Topic 2: Loop Detection
+  Topic 3: Merge sort for DLL
+  Topic 4: Minimum Stack
+  Topic 5: Priority Queue using DLL
+  Topic 6: Segregate even & odd nodes in a LL
+  Topic 7: Sort the bitonic DLL
+  Topic 8: Sort without extra Space
+  Topic 9: Stack permutations
+  Topic 10: Stock Span problem
+  Topic 11: The Celebrity problem
+
+=== CAT 2 ===
+Headers: ['Topic', 'Difficulty', 'Question', 'Option A', 'Option B', 'Option C', 'Option D', 'Correct Answer']
+Total questions: 299
+  Topic 1: BFS, DFS
+  Topic 2: Bellman-Ford Algorithm
+  Topic 3: Boundary traversal
+  Topic 4: Dial's Algorithm
+  Topic 5: Heap Sort
+  Topic 6: Max Sliding Window
+  Topic 7: Recover the BST
+  Topic 8: Topological Sort
+  Topic 9: Vertical order traversal
+  Topic 10: Views of tree
+
