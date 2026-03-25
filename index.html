@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ez_quiz — Interactive MCQ Quiz with dark mode, covering STS 4006 topics." />
+  <title>ez_quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+
+  <!-- ═══ LANDING ═══ -->
+  <section id="landing" class="screen active">
+    <div class="landing-inner">
+      <h1 class="logo">ez<span>_quiz</span></h1>
+      <p class="tagline">Select a category to begin</p>
+      <div class="card-row">
+        <button class="glass-card cat-card" data-cat="CAT 1" id="btn-cat1">
+          <div class="card-icon">📦</div>
+          <h2>Category 1</h2>
+          <p class="card-sub" id="cat1-count"></p>
+        </button>
+        <button class="glass-card cat-card" data-cat="CAT 2" id="btn-cat2">
+          <div class="card-icon">🌲</div>
+          <h2>Category 2</h2>
+          <p class="card-sub" id="cat2-count"></p>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ MODE SELECT ═══ -->
+  <section id="mode-select" class="screen">
+    <div class="screen-inner">
+      <button class="back-btn" id="mode-back">← Back</button>
+      <h1 class="section-title">Choose Your Mode</h1>
+      <p class="section-sub" id="mode-cat-label"></p>
+      <div class="card-row">
+        <button class="glass-card mode-card" data-mode="topic" id="btn-topic-mode">
+          <div class="card-icon">📚</div>
+          <h2>Study by Topic</h2>
+          <p class="card-sub">Questions grouped by topic</p>
+        </button>
+        <button class="glass-card mode-card" data-mode="sequential" id="btn-seq-mode">
+          <div class="card-icon">📋</div>
+          <h2>Sequential Order</h2>
+          <p class="card-sub">All questions in order</p>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TOPIC SELECT ═══ -->
+  <section id="topic-select" class="screen">
+    <div class="screen-inner">
+      <button class="back-btn" id="topic-back">← Back</button>
+      <h1 class="section-title">Pick a Topic</h1>
+      <div class="topic-grid" id="topic-grid"></div>
+    </div>
+  </section>
+
+  <!-- ═══ QUIZ ═══ -->
+  <section id="quiz" class="screen">
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+    <div class="quiz-inner">
+      <div class="quiz-top-row">
+        <button class="back-btn" id="quiz-back">← Exit</button>
+        <span class="q-counter" id="q-counter"></span>
+      </div>
+      <div class="flip-container" id="flip-container">
+        <div class="glass-card question-card" id="question-card">
+          <span class="q-badge" id="q-badge"></span>
+          <p class="q-text" id="q-text"></p>
+          <div class="options-list" id="options-list"></div>
+          <div class="quiz-controls">
+            <button class="ctrl-btn" id="btn-prev" title="Previous">&#8592; Prev</button>
+            <button class="ctrl-btn accent" id="btn-check" title="Check Answer">Check</button>
+            <button class="ctrl-btn accent2" id="btn-show" title="Show Answer">Show</button>
+            <button class="ctrl-btn" id="btn-next" title="Next">Next &#8594;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SUMMARY ═══ -->
+  <section id="summary" class="screen">
+    <div class="screen-inner summary-inner">
+      <h1 class="section-title">Quiz Complete 🎉</h1>
+      <div class="glass-card score-card">
+        <div class="score-ring" id="score-ring">
+          <svg viewBox="0 0 120 120">
+            <circle class="ring-bg" cx="60" cy="60" r="52" />
+            <circle class="ring-fg" cx="60" cy="60" r="52" id="ring-fg" />
+          </svg>
+          <span class="ring-label" id="ring-label">0%</span>
+        </div>
+        <div class="score-details">
+          <p><span class="dot correct-dot"></span> Correct: <strong id="s-correct">0</strong></p>
+          <p><span class="dot wrong-dot"></span> Incorrect: <strong id="s-wrong">0</strong></p>
+          <p><span class="dot skip-dot"></span> Skipped: <strong id="s-skip">0</strong></p>
+        </div>
+      </div>
+      <div id="topic-breakdown" class="topic-breakdown"></div>
+      <div class="summary-actions">
+        <button class="ctrl-btn accent" id="btn-retry">Retry Quiz</button>
+        <button class="ctrl-btn" id="btn-home">Home</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
