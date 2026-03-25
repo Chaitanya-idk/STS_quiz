@@ -1,25 +1,19 @@
-/* ═══════════════════════════════════════════════
-   ez_quiz — Application Logic
-   ═══════════════════════════════════════════════ */
-
 (function () {
   'use strict';
 
-  // ── State ──
   const state = {
-    category: null,       // "CAT 1" | "CAT 2"
-    mode: null,           // "topic" | "sequential"
-    topic: null,          // topic string or null
-    questions: [],        // current question set
-    index: 0,             // current question index
-    selected: {},         // { index: "A"|"B"|"C"|"D" }
-    checked: {},          // { index: true } — answer revealed via check
-    shown: {},            // { index: true } — answer revealed via show
+    category: null,
+    mode: null,
+    topic: null,
+    questions: [],
+    index: 0,
+    selected: {},
+    checked: {},
+    shown: {},
+    score: 0,
   };
 
-  // ── DOM refs ──
   const $ = (sel) => document.querySelector(sel);
-  const $$ = (sel) => document.querySelectorAll(sel);
 
   const screens = {
     landing:     $('#landing'),
@@ -29,7 +23,6 @@
     summary:     $('#summary'),
   };
 
-  // ── Navigation ──
   let currentScreen = 'landing';
 
   function navigateTo(name) {
@@ -40,7 +33,6 @@
     prev.classList.add('exit-left');
     prev.classList.remove('active');
 
-    // Small delay so the exit animation plays before the enter starts
     setTimeout(() => {
       prev.classList.remove('exit-left');
       next.classList.add('active');
@@ -48,12 +40,16 @@
     }, 120);
   }
 
-  // ── Landing ──
   function initLanding() {
-    const cat1Count = QUIZ_DATA['CAT 1']?.length || 0;
-    const cat2Count = QUIZ_DATA['CAT 2']?.length || 0;
-    $('#cat1-count').textContent = `${cat1Count} questions`;
-    $('#cat2-count').textContent = `${cat2Count} questions`;
+    const cat1 = QUIZ_DATA['CAT 1'] || [];
+    const cat2 = QUIZ_DATA['CAT 2'] || [];
+    const totalQ = cat1.length + cat2.length;
+    const totalTopics = new Set([...cat1.map(q => q.topic), ...cat2.map(q => q.topic)]).size;
+
+    $('#cat1-count').textContent = `${cat1.length} questions`;
+    $('#cat2-count').textContent = `${cat2.length} questions`;
+    $('#total-stat').textContent = `${totalQ} questions`;
+    $('#topics-stat').textContent = `${totalTopics} topics`;
 
     $('#btn-cat1').addEventListener('click', () => selectCategory('CAT 1'));
     $('#btn-cat2').addEventListener('click', () => selectCategory('CAT 2'));
@@ -65,7 +61,6 @@
     navigateTo('modeSelect');
   }
 
-  // ── Mode Select ──
   function initModeSelect() {
     $('#mode-back').addEventListener('click', () => navigateTo('landing'));
 
@@ -83,7 +78,6 @@
     });
   }
 
-  // ── Topic Select ──
   function initTopicSelect() {
     $('#topic-back').addEventListener('click', () => navigateTo('modeSelect'));
   }
@@ -112,14 +106,19 @@
     });
   }
 
-  // ── Quiz ──
   function startQuiz() {
     state.index = 0;
     state.selected = {};
     state.checked = {};
     state.shown = {};
+    state.score = 0;
+    updateLiveScore();
     renderQuestion();
     navigateTo('quiz');
+  }
+
+  function updateLiveScore() {
+    $('#live-score').textContent = `Score: ${state.score}`;
   }
 
   function initQuiz() {
@@ -163,17 +162,11 @@
     const total = state.questions.length;
     const idx = state.index;
 
-    // Counter & progress
     $('#q-counter').textContent = `${idx + 1} / ${total}`;
     $('#progress-fill').style.width = `${((idx + 1) / total) * 100}%`;
-
-    // Badge
     $('#q-badge').textContent = q.topic || '';
-
-    // Question text
     $('#q-text').textContent = q.question;
 
-    // Options
     const list = $('#options-list');
     list.innerHTML = '';
 
@@ -186,12 +179,10 @@
       btn.className = 'option-btn';
       btn.innerHTML = `<span class="opt-label">${label}.</span> ${q.options[i]}`;
 
-      // Restore selection
       if (state.selected[idx] === label) {
         btn.classList.add('selected');
       }
 
-      // If already checked/shown, colour them
       if (locked) {
         btn.classList.add('disabled');
         if (label === q.answer) {
@@ -206,7 +197,6 @@
       list.appendChild(btn);
     });
 
-    // Button states
     $('#btn-prev').disabled = idx === 0;
     $('#btn-next').textContent = idx === total - 1 ? 'Finish ✓' : 'Next →';
     $('#btn-check').disabled = locked || !state.selected[idx];
@@ -219,8 +209,19 @@
   }
 
   function checkAnswer() {
-    if (!state.selected[state.index]) return;
-    state.checked[state.index] = true;
+    const idx = state.index;
+    if (!state.selected[idx]) return;
+
+    const q = state.questions[idx];
+    const wasAlreadyShown = state.shown[idx];
+
+    state.checked[idx] = true;
+
+    if (!wasAlreadyShown && state.selected[idx] === q.answer) {
+      state.score++;
+      updateLiveScore();
+    }
+
     renderQuestion();
   }
 
@@ -229,7 +230,6 @@
     renderQuestion();
   }
 
-  // ── Summary ──
   function initSummary() {
     $('#btn-retry').addEventListener('click', startQuiz);
     $('#btn-home').addEventListener('click', () => navigateTo('landing'));
@@ -245,7 +245,7 @@
       if (!topicStats[t]) topicStats[t] = { total: 0, correct: 0 };
       topicStats[t].total++;
 
-      if (state.checked[i]) {
+      if (state.checked[i] && !state.shown[i]) {
         if (state.selected[i] === q.answer) {
           correct++;
           topicStats[t].correct++;
@@ -257,13 +257,11 @@
       }
     });
 
-    // Score ring
     const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
     $('#ring-label').textContent = `${pct}%`;
-    const circ = 2 * Math.PI * 52; // ~326.73
+    const circ = 2 * Math.PI * 52;
     const offset = circ - (circ * pct) / 100;
 
-    // Inject SVG gradient if not present
     const svg = $('#score-ring svg');
     if (!svg.querySelector('defs')) {
       const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
@@ -274,17 +272,14 @@
       svg.insertBefore(defs, svg.firstChild);
     }
 
-    // Animate ring after a tick
     requestAnimationFrame(() => {
       $('#ring-fg').style.strokeDashoffset = offset;
     });
 
-    // Counts
     $('#s-correct').textContent = correct;
     $('#s-wrong').textContent = wrong;
     $('#s-skip').textContent = skipped;
 
-    // Topic breakdown
     const container = $('#topic-breakdown');
     container.innerHTML = '<h3 style="margin-bottom:.75rem;font-size:1rem;font-weight:600;">Topic Breakdown</h3>';
     Object.keys(topicStats).sort().forEach((t) => {
@@ -300,7 +295,6 @@
         </span>`;
       container.appendChild(item);
 
-      // Animate bar
       requestAnimationFrame(() => {
         item.querySelector('.tb-bar-fill').style.width = `${p}%`;
       });
@@ -309,7 +303,6 @@
     navigateTo('summary');
   }
 
-  // ── Boot ──
   function init() {
     initLanding();
     initModeSelect();

@@ -7,32 +7,51 @@
   <title>ez_quiz</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="index.css" />
 </head>
 <body>
 
-  <!-- ═══ LANDING ═══ -->
   <section id="landing" class="screen active">
+    <header class="site-header">
+      <div class="header-brand">
+        <span class="header-logo">ez<span class="accent">_quiz</span></span>
+      </div>
+      <a href="https://github.com/Chaitanya-idk" target="_blank" rel="noopener" class="github-btn" id="github-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        <span>GitHub</span>
+      </a>
+    </header>
     <div class="landing-inner">
-      <h1 class="logo">ez<span>_quiz</span></h1>
-      <p class="tagline">Select a category to begin</p>
+      <div class="hero-block">
+        <h1 class="logo">ez<span>_quiz</span></h1>
+        <p class="tagline">Master STS 4006 — one question at a time</p>
+        <div class="hero-stats">
+          <span class="stat-pill" id="total-stat"></span>
+          <span class="stat-pill" id="topics-stat"></span>
+        </div>
+      </div>
+      <p class="pick-label">Pick your category</p>
       <div class="card-row">
         <button class="glass-card cat-card" data-cat="CAT 1" id="btn-cat1">
+          <div class="card-glow glow-blue"></div>
           <div class="card-icon">📦</div>
           <h2>Category 1</h2>
           <p class="card-sub" id="cat1-count"></p>
         </button>
         <button class="glass-card cat-card" data-cat="CAT 2" id="btn-cat2">
+          <div class="card-glow glow-purple"></div>
           <div class="card-icon">🌲</div>
           <h2>Category 2</h2>
           <p class="card-sub" id="cat2-count"></p>
         </button>
       </div>
     </div>
+    <footer class="site-footer">
+      <p>ez_quiz &middot; Built for STS 4006 &middot; <a href="https://github.com/Chaitanya-idk" target="_blank" rel="noopener">@Chaitanya-idk</a></p>
+    </footer>
   </section>
 
-  <!-- ═══ MODE SELECT ═══ -->
   <section id="mode-select" class="screen">
     <div class="screen-inner">
       <button class="back-btn" id="mode-back">← Back</button>
@@ -53,7 +72,6 @@
     </div>
   </section>
 
-  <!-- ═══ TOPIC SELECT ═══ -->
   <section id="topic-select" class="screen">
     <div class="screen-inner">
       <button class="back-btn" id="topic-back">← Back</button>
@@ -62,7 +80,6 @@
     </div>
   </section>
 
-  <!-- ═══ QUIZ ═══ -->
   <section id="quiz" class="screen">
     <div class="progress-bar-track">
       <div class="progress-bar-fill" id="progress-fill"></div>
@@ -70,6 +87,7 @@
     <div class="quiz-inner">
       <div class="quiz-top-row">
         <button class="back-btn" id="quiz-back">← Exit</button>
+        <span class="live-score" id="live-score">Score: 0</span>
         <span class="q-counter" id="q-counter"></span>
       </div>
       <div class="flip-container" id="flip-container">
@@ -88,7 +106,6 @@
     </div>
   </section>
 
-  <!-- ═══ SUMMARY ═══ -->
   <section id="summary" class="screen">
     <div class="screen-inner summary-inner">
       <h1 class="section-title">Quiz Complete 🎉</h1>
@@ -103,7 +120,7 @@
         <div class="score-details">
           <p><span class="dot correct-dot"></span> Correct: <strong id="s-correct">0</strong></p>
           <p><span class="dot wrong-dot"></span> Incorrect: <strong id="s-wrong">0</strong></p>
-          <p><span class="dot skip-dot"></span> Skipped: <strong id="s-skip">0</strong></p>
+          <p><span class="dot skip-dot"></span> Skipped / Shown: <strong id="s-skip">0</strong></p>
         </div>
       </div>
       <div id="topic-breakdown" class="topic-breakdown"></div>
