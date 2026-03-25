@@ -9,12 +9,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="index.css" />
+  <link rel="icon" type="image/png" href="logo.png" />
 </head>
 <body>
 
   <section id="landing" class="screen active">
     <header class="site-header">
       <div class="header-brand">
+        <img src="logo.png" alt="ez_quiz logo" class="header-icon" />
         <span class="header-logo">ez<span class="accent">_quiz</span></span>
       </div>
       <a href="https://github.com/Chaitanya-idk" target="_blank" rel="noopener" class="github-btn" id="github-link">
@@ -24,7 +26,10 @@
     </header>
     <div class="landing-inner">
       <div class="hero-block">
-        <h1 class="logo">ez<span>_quiz</span></h1>
+        <div class="hero-title-container">
+          <img src="logo.png" alt="ez_quiz logo" class="hero-icon" />
+          <h1 class="logo">ez<span>_quiz</span></h1>
+        </div>
         <p class="tagline">Master STS 4006 — one question at a time</p>
         <div class="hero-stats">
           <span class="stat-pill" id="total-stat"></span>

@@ -108,6 +108,13 @@ body::before {
   color: var(--text);
 }
 
+.header-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .header-logo .accent {
   color: var(--accent);
 }
@@ -163,13 +170,29 @@ body::before {
   margin-bottom: 2.5rem;
 }
 
+.hero-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: .3rem;
+}
+
+.hero-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
 .logo {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 4rem;
   font-weight: 700;
   text-align: center;
   letter-spacing: -2px;
-  margin-bottom: .3rem;
   color: var(--text);
   background: linear-gradient(135deg, var(--text) 40%, var(--accent) 100%);
   -webkit-background-clip: text;
